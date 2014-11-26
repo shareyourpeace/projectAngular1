@@ -1,0 +1,59 @@
+<html ng-app ="peanutsApp" >
+    <head>
+        <meta charset="utf-8">
+        <title>Angular.js Example</title>
+        <!--<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>-->
+        <script src="angular.js"></script>
+        <script src="angular-route.js"></script>
+        <link href="styles.css" rel="stylesheet">
+        <script>
+            var peanutsApp = angular.module('peanutsApp', ['ngRoute']);
+        
+            peanutsApp.config(function($routeProvider) {
+                $routeProvider
+                        .when('/', {
+                            template: '<ul><li ng-repeat = "peanut in peanuts">{{peanut.character}}</li></ul>',
+                            controller: 'PeanutsListCtrl'
+                        })
+                        .when('/:peanutCharacter', {// $routeParams give you what is after the : evaluated as a variable
+                            // :peanutCharacter is the Object that you can see in the console.log
+                            template: '<h1><TODO create peanut detail view</h1>',
+                            controller: 'PeanutsDetailCtrl'
+                        })
+                        .otherwise({
+                            redirectTo: '/'
+                        });
+            });
+            peanutsApp.controller('PeanutsListCtrl', function($scope, $http) {
+                $http.get('peanuts.json').success(function(data) {
+                    $scope.peanuts = data;
+                });
+            });
+            peanutsApp.controller('PeanutsDetailCtrl', function($scope, $routeParams) {
+                console.log($routeParams);
+            });
+        </script>   
+    </head>
+    <body ng-controller="PeanutsListCtrl">
+        <h2>Search:</h2> <input ng-model ="query" type="text">
+        <h2>Click below headers to sort.</h2>
+        <table>
+            <th><a href="" ng-click ="sortField = 'character';
+                  reverse = !reverse">character</a></th>
+            <th><a href="" ng-click ="sortField = 'gender';
+                  reverse = !reverse">gender      </a></th>
+            <th><a href="" ng-click ="sortField = 'date';
+                  reverse = !reverse">first appearance</a></th>
+            <th><a href="https://en.wikipedia.org/wiki/List_of_Peanuts_characters">Wiki Peanuts Characters</a></th>
+            <tr>       
+            <tr ng-repeat = "peanut in peanuts| filter:query | orderBy:sortField:reverse"> 
+                <td id ="{{peanut.character}}">{{peanut.character}}</td>
+                <td>{{peanut.gender}}</td>
+                <td>{{peanut.date}}</td>
+                <td><a href ="" ng-src="{{peanut.detailsURL}}"></a></td>
+                <td><a href="{{peanut.detailsURL}}">details</a></td>
+                <td><img ng-src ="{{peanut.image}}">
+            </tr>
+        </table>   
+    </body>
+</html>
