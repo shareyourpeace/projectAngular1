@@ -15,7 +15,8 @@
                             template: '<ul><li ng-repeat = "peanut in peanuts">{{peanut.character}}</li></ul>',
                             controller: 'PeanutsListCtrl'
                         })
-                        .when('/:peanutCharacter', {// $routeParams give you what is after the : evaluated as a variable
+                        .when('/:peanutCharacter', {
+                            // $routeParams give you what is after the : evaluated as a variable
                             // :peanutCharacter is the Object that you can see in the console.log
                             template: '<h1><TODO create peanut detail view</h1>',
                             controller: 'PeanutsDetailCtrl'
